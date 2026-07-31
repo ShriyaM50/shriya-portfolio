@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shriya — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0D1117;
+    --bg-panel: #12161D;
+    --bg-card: #171C24;
+    --line: #262C36;
+    --text: #E7EAF0;
+    --text-dim: #8B93A7;
+    --mint: #6EE7B7;
+    --amber: #F5B942;
+    --mono: 'JetBrains Mono', monospace;
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'Inter', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    line-height:1.6;
+  }
+  ::selection{ background:var(--mint); color:#0D1117; }
+
+  a{ color:inherit; text-decoration:none; }
+
+  /* Layout shell */
+  .shell{
+    display:grid;
+    grid-template-columns: 220px 1fr;
+    min-height:100vh;
+  }
+  @media (max-width: 820px){
+    .shell{ grid-template-columns: 1fr; }
+    .filetree{ display:none; }
+  }
+
+  /* Sidebar file tree */
+  .filetree{
+    border-right:1px solid var(--line);
+    background:var(--bg-panel);
+    padding:28px 18px;
+    position:sticky;
+    top:0;
+    height:100vh;
+    font-family:var(--mono);
+    font-size:13px;
+  }
+  .filetree .root{
+    color:var(--text-dim);
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    margin-bottom:16px;
+  }
+  .filetree ul{ list-style:none; }
+  .filetree li{ margin:2px 0; }
+  .filetree a{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:6px 8px;
+    border-radius:6px;
+    color:var(--text-dim);
+    transition:background .15s, color .15s;
+  }
+  .filetree a:hover, .filetree a.active{
+    background:#1D232D;
+    color:var(--mint);
+  }
+  .filetree .dot{ width:6px; height:6px; border-radius:50%; background:var(--text-dim); flex-shrink:0; }
+  .filetree a:hover .dot, .filetree a.active .dot{ background:var(--mint); }
+
+  main{ min-width:0; }
+
+  section{
+    padding:80px 48px;
+    max-width:900px;
+  }
+  @media (max-width:640px){
+    section{ padding:56px 22px; }
+  }
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--mint);
+    letter-spacing:0.05em;
+    margin-bottom:14px;
+  }
+  .eyebrow::before{ content:"// "; color:var(--text-dim); }
+
+  h1, h2, h3{ font-family:var(--display); font-weight:600; }
+
+  /* HERO */
+  .hero{
+    min-height:92vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding-top:40px;
+  }
+  .terminal{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    max-width:640px;
+    margin-bottom:36px;
+    overflow:hidden;
+    box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);
+  }
+  .terminal-bar{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:10px 14px;
+    background:#0F1319;
+    border-bottom:1px solid var(--line);
+  }
+  .terminal-bar span{ width:10px; height:10px; border-radius:50%; display:inline-block; }
+  .terminal-bar span:nth-child(1){ background:#FF5F57; }
+  .terminal-bar span:nth-child(2){ background:#FEBC2E; }
+  .terminal-bar span:nth-child(3){ background:#28C840; }
+  .terminal-body{
+    padding:20px 18px 24px;
+    font-family:var(--mono);
+    font-size:14px;
+    color:var(--text-dim);
+  }
+  .terminal-body .prompt{ color:var(--mint); }
+  .terminal-body .cmd{ color:var(--text); }
+  .typed{
+    display:inline-block;
+    border-right:2px solid var(--mint);
+    white-space:nowrap;
+    overflow:hidden;
+    animation: typing 2.4s steps(28, end) 1 both, blink 0.8s step-end infinite;
+  }
+  @keyframes typing{ from{ width:0; } to{ width: 27ch; } }
+  @keyframes blink{ 50%{ border-color:transparent; } }
+  .terminal-body .out{ margin-top:10px; color:var(--text-dim); animation: fadein 0.6s ease 2.5s both; }
+  .terminal-body .out b{ color:var(--text); font-weight:600; }
+  @keyframes fadein{ from{ opacity:0; transform:translateY(4px);} to{ opacity:1; transform:translateY(0);} }
+
+  h1.name{
+    font-size:clamp(38px, 6vw, 62px);
+    line-height:1.05;
+    margin-bottom:12px;
+  }
+  h1.name .accent{ color:var(--mint); }
+  .role{
+    font-family:var(--mono);
+    color:var(--text-dim);
+    font-size:16px;
+    max-width:520px;
+  }
+  .hero-cta{
+    display:flex;
+    gap:14px;
+    margin-top:32px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    font-family:var(--mono);
+    font-size:13px;
+    padding:11px 18px;
+    border-radius:7px;
+    border:1px solid var(--line);
+    transition:border-color .15s, background .15s;
+  }
+  .btn.primary{ background:var(--mint); color:#0D1117; border-color:var(--mint); font-weight:600; }
+  .btn.primary:hover{ opacity:0.9; }
+  .btn.ghost:hover{ border-color:var(--mint); color:var(--mint); }
+
+  /* ABOUT */
+  .about-grid{
+    display:grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap:40px;
+  }
+  @media (max-width:640px){ .about-grid{ grid-template-columns:1fr; } }
+  .about-grid p{ color:var(--text-dim); margin-bottom:14px; }
+  .about-grid p b{ color:var(--text); font-weight:600; }
+  .info-card{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:20px;
+    font-family:var(--mono);
+    font-size:13px;
+  }
+  .info-card dt{ color:var(--text-dim); margin-top:12px; }
+  .info-card dt:first-child{ margin-top:0; }
+  .info-card dd{ color:var(--text); margin-bottom:2px; }
+
+  /* SKILLS */
+  .skills-json{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:24px 28px;
+    font-family:var(--mono);
+    font-size:14px;
+    overflow-x:auto;
+  }
+  .skills-json .k{ color:var(--amber); }
+  .skills-json .s{ color:var(--mint); }
+  .skills-json .p{ color:var(--text-dim); }
+  .skills-json pre{ white-space:pre-wrap; word-break:break-word; }
+
+  /* PROJECTS */
+  .project-card{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:26px;
+    margin-bottom:20px;
+    transition:border-color .15s, transform .15s;
+  }
+  .project-card:hover{ border-color:var(--mint); transform:translateY(-2px); }
+  .project-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:10px;
+  }
+  .project-head h3{ font-size:19px; }
+  .project-tag{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--mint);
+    border:1px solid var(--line);
+    padding:3px 8px;
+    border-radius:5px;
+    white-space:nowrap;
+  }
+  .project-card p{ color:var(--text-dim); font-size:14.5px; margin-bottom:12px; }
+  .stack{ display:flex; gap:8px; flex-wrap:wrap; }
+  .stack span{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--text-dim);
+    background:#0F1319;
+    border:1px solid var(--line);
+    padding:3px 9px;
+    border-radius:5px;
+  }
+  .project-card.placeholder{
+    border-style:dashed;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--text-dim);
+    font-family:var(--mono);
+    font-size:13px;
+    min-height:100px;
+  }
+
+  /* CONTACT */
+  .contact-card{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:32px;
+  }
+  .contact-list{ display:flex; flex-direction:column; gap:14px; margin-top:18px; }
+  .contact-list a{
+    font-family:var(--mono);
+    font-size:14px;
+    color:var(--text-dim);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    transition:color .15s;
+  }
+  .contact-list a:hover{ color:var(--mint); }
+  .contact-list .lbl{ color:var(--text); width:76px; flex-shrink:0; }
+
+  footer{
+    padding:30px 48px 50px;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--text-dim);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .typed{ animation:none; width:27ch; border-right:none; }
+    .out{ animation:none; opacity:1; }
+    .project-card:hover{ transform:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <nav class="filetree">
+    <div class="root">shriya/</div>
+    <ul>
+      <li><a href="#hero" class="active"><span class="dot"></span>whoami.sh</a></li>
+      <li><a href="#about"><span class="dot"></span>about.md</a></li>
+      <li><a href="#skills"><span class="dot"></span>skills.json</a></li>
+      <li><a href="#projects"><span class="dot"></span>projects/</a></li>
+      <li><a href="#contact"><span class="dot"></span>contact.md</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="terminal">
+        <div class="terminal-bar"><span></span><span></span><span></span></div>
+        <div class="terminal-body">
+          <div><span class="prompt">shriya@chitkara</span><span class="cmd">:~$</span> <span class="typed">whoami --verbose</span></div>
+          <div class="out">
+            <b>Shriya</b> — B.E. CSE, Semester IV<br>
+            Chitkara University<br>
+            currently in: 24CS014 · Front-End Frameworks &amp; Libraries
+          </div>
+        </div>
+      </div>
+
+      <h1 class="name">Building things<br>for the <span class="accent">browser.</span></h1>
+      <p class="role">Computer Science student specializing in front-end development — turning coursework into working, interactive tools rather than just assignments.</p>
+
+      <div class="hero-cta">
+        <a href="#projects" class="btn primary">View Projects</a>
+        <a href="#contact" class="btn ghost">Get in Touch</a>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="eyebrow">about</div>
+      <div class="about-grid">
+        <div>
+          <p><b>I'm a B.E. Computer Science Engineering student</b> in my fourth semester at Chitkara University, focused on front-end development — the layer where code becomes something people actually touch and use.</p>
+          <p>Right now I'm deep in <b>24CS014, Front-End Frameworks and Libraries</b>, and I like to push coursework past the syllabus — turning study material into real, interactive tools instead of static notes.</p>
+          <p>I'm early in my portfolio, and this page grows as new projects ship. Check back for more.</p>
+        </div>
+        <div class="info-card">
+          <dl>
+            <dt>Degree</dt><dd>B.E. Computer Science Engineering</dd>
+            <dt>Year</dt><dd>Semester IV</dd>
+            <dt>University</dt><dd>Chitkara University</dd>
+            <dt>Focus</dt><dd>Front-End Development</dd>
+            <dt>Current Course</dt><dd>24CS014 — Front-End Frameworks &amp; Libraries</dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="eyebrow">skills</div>
+      <h2 style="margin-bottom:20px;">skills.json</h2>
+      <div class="skills-json">
+<pre><span class="p">{</span>
+  <span class="k">"languages"</span><span class="p">:</span> [<span class="s">"JavaScript"</span>, <span class="s">"HTML"</span>, <span class="s">"CSS"</span>, <span class="s">"Java"</span>, <span class="s">"Python"</span>]<span class="p">,</span>
+  <span class="k">"frameworks_in_progress"</span><span class="p">:</span> [<span class="s">"React"</span>]<span class="p">,</span>
+  <span class="k">"tools"</span><span class="p">:</span> [<span class="s">"Git"</span>, <span class="s">"VS Code"</span>]<span class="p">,</span>
+  <span class="k">"currently_learning"</span><span class="p">:</span> <span class="s">"Front-End Frameworks & Libraries (24CS014)"</span>
+<span class="p">}</span></pre>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="eyebrow">projects</div>
+      <h2 style="margin-bottom:24px;">projects/</h2>
+
+      <div class="project-card">
+        <div class="project-head">
+          <h3>24CS014 MCQ Quiz App</h3>
+          <span class="project-tag">interactive</span>
+        </div>
+        <p>An interactive, browser-based MCQ quiz application covering the full syllabus of the Front-End Frameworks and Libraries course — all 57+ sessions, built to turn passive review into active practice.</p>
+        <div class="stack"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-head">
+          <h3>24CS014 MCQ Question Bank</h3>
+          <span class="project-tag">study tool</span>
+        </div>
+        <p>A generated question bank of 480 MCQs spanning 16 topics from the course, each with an answer and explanation, compiled into a single reference PDF.</p>
+        <div class="stack"><span>Content Design</span><span>PDF</span></div>
+      </div>
+
+      <div class="project-card placeholder">
+        + add your next project here
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="eyebrow">contact</div>
+      <div class="contact-card">
+        <h2>Let's talk.</h2>
+        <p style="color:var(--text-dim); margin-top:8px; font-size:14.5px;">Open to internships, collaborations, and front-end projects.</p>
+        <div class="contact-list">
+          <a href="mailto:you@email.com"><span class="lbl">email</span> you@email.com</a>
+          <a href="#"><span class="lbl">github</span> github.com/your-username</a>
+          <a href="#"><span class="lbl">linkedin</span> linkedin.com/in/your-profile</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      built by Shriya · Chitkara University
+    </footer>
+  </main>
+</div>
+
+<script>
+  const links = document.querySelectorAll('.filetree a');
+  const sections = document.querySelectorAll('main section');
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(l=>l.classList.remove('active'));
+        const match = document.querySelector('.filetree a[href="#'+e.target.id+'"]');
+        if(match) match.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+  sections.forEach(s=>obs.observe(s));
+</script>
+
+</body>
+</html>
